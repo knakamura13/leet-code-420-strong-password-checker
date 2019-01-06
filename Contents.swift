@@ -1,30 +1,3 @@
-/*
- *  Author: Kyle Nakamura
- *  Leet Code Problem: 420. Strong Password Checker
- *  Difficulty: Hard
- *  Time Spent: 120 minutes
- *  Instructions:
- *      A password is considered strong if below conditions are all met:
- *
- *          1) It has at least 6 characters and at most 20 characters.
- *          2) It must contain at least one lowercase letter, at least one uppercase letter, and at least one digit.
- *          3) It must NOT contain three repeating characters in a row ("...aaa..." is weak, but "...aa...a..." is strong, assuming other conditions are met).
- *
- *      Write a function strongPasswordChecker(s), that takes a string s as input,
- *      and return the MINIMUM change required to make s a strong password.
- *      If s is already strong, return 0.
- *
- *      Insertion, deletion or replace of any one character are all considered as one change.
- *
- *  Test cases validated:
- *      "aaa23"
- *      "aaa1@gmail.com!"
- *      "oCaptainMyCapta1n!"
- *      "111111111111111111111111111111111111111111111111111111111111111111"
- *      "111a11111111111111111111111111111111111111111111111111111111111111"
- *      "111a1111111111111111111bb11111111111C11111111111111111111111111111"
-*/
-
 import UIKit
 
 class Solution {
@@ -49,6 +22,10 @@ class Solution {
         
         // 1) Check the length of the string
         
+        
+        if s.count <= 5 {
+            return 6 - s.count
+        }
         
         if s.count >= 6 {
             // String is at least 6 characters long.
@@ -116,13 +93,14 @@ class Solution {
                 repetitions += 1
             } else {
                 prevChar = char
+                repetitions = 1
                 continue
             }
             
             if repetitions >= 3 {
                 requiredChanges += 1
                 totalRepetitions += 1
-                repetitions = 0
+                repetitions = 1
             }
             
             prevChar = char
@@ -193,13 +171,23 @@ class Solution {
 
 
 let testCases: [String : Int] = [
-    "oCaptainMyCapta1n!" : 0,
-    "aaaB" : 1,
+    "" : 6,
+    "a" : 5,
+    "aa" : 4,
+    "aaa" : 3,
+    "aaaa" : 2,
+    "aaaB" : 2,
     "aaa23" : 1,
+    "aa123" : 1,
+    "aaa111" : 2,
+    "aaa123" : 1,
+    "aaAA11" : 0,
+    "1111111111" : 3,
     "aaa1@gmail.com!" : 1,
-    "111a1111111111111111111bb11111111111C11111111111111111111111111111" : 49,
+    "oCaptainMyCapta1n!" : 0,
+    "111111111111111111111111111111111111111111111111111111111111111111" : 52,
     "111a11111111111111111111111111111111111111111111111111111111111111" : 51,
-    "111111111111111111111111111111111111111111111111111111111111111111" : 52
+    "111a1111111111111111111bb11111111111C11111111111111111111111111111" : 49
 ]
 
 var passCount = 0
